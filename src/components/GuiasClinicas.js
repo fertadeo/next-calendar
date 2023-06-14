@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import axios from 'axios';
+import Botonera from './Botonera';
 
-const TablaArticulos = () => {
+const GuiasClinicas = () => {
   const [busqueda, setBusqueda] = useState('');
   const [categorias, setCategorias] = useState([]);
-  const [articulosFiltrados, setArticulosFiltrados] = useState([]);
+  const [articulosFiltrados, setArticulosFiltrados] = useState(articulos);
 
   // const categorias = ['ADOLESCENCIA', 'ALERGIA'];
   
@@ -45,16 +46,16 @@ const TablaArticulos = () => {
     const valorBusqueda = event.target.value;
     setBusqueda(valorBusqueda);
 
-    const articulosFiltrados = articulos.filter(articulo =>
+    const aux = articulosFiltrados.filter(articulo =>
       articulo.nombre.toLowerCase().includes(valorBusqueda.toLowerCase())
     );
-    setArticulosFiltrados(articulosFiltrados);
+    setArticulosFiltrados(aux);
 
     const categoriasUnicas = [...new Set(articulosFiltrados.map(articulo => articulo.categoria))];
     setCategorias(categoriasUnicas);
   };
 
-  const listaArticulos = busqueda === '' ? articulos : articulosFiltrados;
+  
 
   return (
     <>
@@ -77,7 +78,7 @@ const TablaArticulos = () => {
               </tr>
             </thead>
             <tbody>
-              {listaArticulos.map((articulo, index) => (
+              {articulosFiltrados.map((articulo, index) => (
                 articulo.categoria === categoria && (
                   <tr key={index}>
                     <td>
@@ -102,4 +103,4 @@ const TablaArticulos = () => {
   );
 };
 
-export default TablaArticulos;
+export default GuiasClinicas;
