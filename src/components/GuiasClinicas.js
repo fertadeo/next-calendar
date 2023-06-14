@@ -1,6 +1,38 @@
 import React, { useState, useEffect, Component } from 'react';
-import axios from 'axios';
 import Botonera from './Botonera';
+// import axios from 'axios';
+const articulos = [
+  {
+    nombre: "ADOLESCENCIA: UNA MIRADA SOCIAL EN LA EDAD VULNERABLE",
+    enlace: "https://drive.google.com/file/d/1zOiMmLFsldUtVSo_Nax6O6RGvOxc0XTl/view?usp=drive_link",
+    categoria: "ADOLESCENCIA"
+  },
+  {
+    nombre: "CARACTERISTICAS PSICOLÓGICAS DEL DESARROLLO EN LA ADOLESCENCIA",
+    enlace: "https://drive.google.com/file/d/1jJm1xh4LYd3oqDlpzRazdhXSwSLtkHfx/view?usp=drive_link",
+    categoria: "ADOLESCENCIA"
+  },
+  {
+    nombre: "DEPRESIONES EN LA ADOLESCENCIA",
+    enlace: "https://drive.google.com/file/d/1e5y4BFSxPdUMLOVJFXMsyL9G_azbVIc9/view?usp=drive_link",
+    categoria: "ADOLESCENCIA"
+  },
+  {
+    nombre: "ALERGIA AL POLVO",
+    enlace: "https://www.example.com",
+    categoria: "ALERGIA"
+  },
+  {
+    nombre: "ALERGIA ALIMENTARIA",
+    enlace: "https://www.example.com",
+    categoria: "ALERGIA"
+  },
+  {
+    nombre: "ALERGIA AL POLLEN",
+    enlace: "https://www.example.com",
+    categoria: "ALERGIA"
+  }
+];
 
 const GuiasClinicas = () => {
   const [busqueda, setBusqueda] = useState('');
@@ -9,50 +41,11 @@ const GuiasClinicas = () => {
 
   // const categorias = ['ADOLESCENCIA', 'ALERGIA'];
   
-  const articulos = [
-    {
-      nombre: "ADOLESCENCIA: UNA MIRADA SOCIAL EN LA EDAD VULNERABLE",
-      enlace: "https://drive.google.com/file/d/1zOiMmLFsldUtVSo_Nax6O6RGvOxc0XTl/view?usp=drive_link",
-      categoria: "ADOLESCENCIA"
-    },
-    {
-      nombre: "CARACTERISTICAS PSICOLÓGICAS DEL DESARROLLO EN LA ADOLESCENCIA",
-      enlace: "https://drive.google.com/file/d/1jJm1xh4LYd3oqDlpzRazdhXSwSLtkHfx/view?usp=drive_link",
-      categoria: "ADOLESCENCIA"
-    },
-    {
-      nombre: "DEPRESIONES EN LA ADOLESCENCIA",
-      enlace: "https://drive.google.com/file/d/1e5y4BFSxPdUMLOVJFXMsyL9G_azbVIc9/view?usp=drive_link",
-      categoria: "ADOLESCENCIA"
-    },
-    {
-      nombre: "ALERGIA AL POLVO",
-      enlace: "https://www.example.com",
-      categoria: "ALERGIA"
-    },
-    {
-      nombre: "ALERGIA ALIMENTARIA",
-      enlace: "https://www.example.com",
-      categoria: "ALERGIA"
-    },
-    {
-      nombre: "ALERGIA AL POLLEN",
-      enlace: "https://www.example.com",
-      categoria: "ALERGIA"
-    }
-  ];
+  
 
   const handleBusquedaChange = (event) => {
     const valorBusqueda = event.target.value;
     setBusqueda(valorBusqueda);
-
-    const aux = articulosFiltrados.filter(articulo =>
-      articulo.nombre.toLowerCase().includes(valorBusqueda.toLowerCase())
-    );
-    setArticulosFiltrados(aux);
-
-    const categoriasUnicas = [...new Set(articulosFiltrados.map(articulo => articulo.categoria))];
-    setCategorias(categoriasUnicas);
   };
 
   
@@ -99,6 +92,10 @@ const GuiasClinicas = () => {
           </React.Fragment>
         ))}
       </table>
+      {
+      busqueda === '' && <Botonera />
+      }
+     
     </>
   );
 };
