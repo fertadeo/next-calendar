@@ -43,13 +43,19 @@
   .arrow{
     margin-left: auto;
     transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+    text-decoration: none;
+    color: #3e4043;
+    border: red solid 2px;
   }
   
-  .itemBtnExpanded  .arrow{
+  .itemBtnExpanded  .arrow .lines {
     transform: rotate(180deg);
-  }
-  .lines{
-    background-color: #f3f3f3;
-    border-bottom: 2px #3e4043 solid;
 
   }
+
+  .article{
+    text-decoration: none;
+    color: #000000;
+  }
+
+ 

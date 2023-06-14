@@ -1,60 +1,105 @@
-import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
-import styles from "./styles.module.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-/**
- * @type {React.ExoticComponent<import('@szhsin/react-accordion').AccordionItemProps>}
- */
+const TablaArticulos = () => {
+  const [busqueda, setBusqueda] = useState('');
+  const [categorias, setCategorias] = useState([]);
+  const [articulosFiltrados, setArticulosFiltrados] = useState([]);
 
-const AccordionItem = ({ header, ...rest }) => (
-  <Item
-    {...rest}
-    header={
-      <>
-        {header}
-         <div className={styles.arrow}>
-         <i className="ri-arrow-down-s-line"  alt="Chevron Down"></i>
-         </div>
-      </>
+  // const categorias = ['ADOLESCENCIA', 'ALERGIA'];
+  
+  const articulos = [
+    {
+      nombre: "ADOLESCENCIA: UNA MIRADA SOCIAL EN LA EDAD VULNERABLE",
+      enlace: "https://drive.google.com/file/d/1zOiMmLFsldUtVSo_Nax6O6RGvOxc0XTl/view?usp=drive_link",
+      categoria: "ADOLESCENCIA"
+    },
+    {
+      nombre: "CARACTERISTICAS PSICOLÓGICAS DEL DESARROLLO EN LA ADOLESCENCIA",
+      enlace: "https://drive.google.com/file/d/1jJm1xh4LYd3oqDlpzRazdhXSwSLtkHfx/view?usp=drive_link",
+      categoria: "ADOLESCENCIA"
+    },
+    {
+      nombre: "DEPRESIONES EN LA ADOLESCENCIA",
+      enlace: "https://drive.google.com/file/d/1e5y4BFSxPdUMLOVJFXMsyL9G_azbVIc9/view?usp=drive_link",
+      categoria: "ADOLESCENCIA"
+    },
+    {
+      nombre: "ALERGIA AL POLVO",
+      enlace: "https://www.example.com",
+      categoria: "ALERGIA"
+    },
+    {
+      nombre: "ALERGIA ALIMENTARIA",
+      enlace: "https://www.example.com",
+      categoria: "ALERGIA"
+    },
+    {
+      nombre: "ALERGIA AL POLLEN",
+      enlace: "https://www.example.com",
+      categoria: "ALERGIA"
     }
-    className={styles.item}
-    buttonProps={{
-      className: ({ isEnter }) =>
-        `${styles.itemBtn} ${isEnter && styles.itemBtnExpanded}`
-    }}
-    contentProps={{ className: styles.itemContent }}
-    panelProps={{ className: styles.itemPanel }}
-  />
-);
+  ];
 
-export default function App() {
+  const handleBusquedaChange = (event) => {
+    const valorBusqueda = event.target.value;
+    setBusqueda(valorBusqueda);
+
+    const articulosFiltrados = articulos.filter(articulo =>
+      articulo.nombre.toLowerCase().includes(valorBusqueda.toLowerCase())
+    );
+    setArticulosFiltrados(articulosFiltrados);
+
+    const categoriasUnicas = [...new Set(articulosFiltrados.map(articulo => articulo.categoria))];
+    setCategorias(categoriasUnicas);
+  };
+
+  const listaArticulos = busqueda === '' ? articulos : articulosFiltrados;
+
   return (
-    <div className={styles.app}>
-      {/* `transitionTimeout` prop should be equal to the transition duration in CSS */}
-      <Accordion transition transitionTimeout={250}>
-        <AccordionItem header="ADOLESCENCIA"  initialEntered>
-           
-             <i className="ri-book-2-fill"> Caracteristicas Psicologicas del desarrollo en la adolescencia</i> 
-
-        </AccordionItem>
-
-        <AccordionItem header="ALERGIA">
-          Quisque eget luctus mi, vehicula mollis lorem. Proin fringilla vel
-          erat quis sodales. Nam ex enim, eleifend venenatis lectus vitae.
-        </AccordionItem>
-
-        <AccordionItem header="CARDIOLOGIA">
-          Suspendisse massa risus, pretium id interdum in, dictum sit amet ante.
-          Fusce vulputate purus sed tempus feugiat.
-        </AccordionItem>
-        <AccordionItem header="EJERCICIO PROFESIONAL">
-          Suspendisse massa risus, pretium id interdum in, dictum sit amet ante.
-          Fusce vulputate purus sed tempus feugiat.
-        </AccordionItem>
-        <AccordionItem header="ENDOCRINOLOGIA">
-          Suspendisse massa risus, pretium id interdum in, dictum sit amet ante.
-          Fusce vulputate purus sed tempus feugiat.
-        </AccordionItem>
-      </Accordion>
-    </div>
+    <>
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Buscar artículo"
+        value={busqueda}
+        onChange={handleBusquedaChange}
+      />
+      <button className='btn btn-primary'>Buscar</button>
+      <table className="table">
+        {categorias.map((categoria, index) => (
+          <React.Fragment key={index}>
+            <thead>
+              <tr>
+                <th scope="col-6">
+                  <h4>{categoria}</h4>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {listaArticulos.map((articulo, index) => (
+                articulo.categoria === categoria && (
+                  <tr key={index}>
+                    <td>
+                      <i className="ri-book-2-fill"></i>{' '}
+                      <a
+                        className="link-dark"
+                        rel="noopener noreferrer"
+                        href={articulo.enlace}
+                        target="_blank"
+                      >
+                        {articulo.nombre}
+                      </a>
+                    </td>
+                  </tr>
+                )
+              ))}
+            </tbody>
+          </React.Fragment>
+        ))}
+      </table>
+    </>
   );
-}
+};
+
+export default TablaArticulos;
